@@ -212,6 +212,20 @@ const TEMPLATES = [
   { id: 'executive', name: 'Executive', desc: 'Leadership and impact focus.', icon: Trophy },
 ];
 
+// --- Brand Components ---
+
+const BrandLogo = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
+    <path d="M16 2H8C5.79086 2 4 3.79086 4 6V18C4 20.2091 5.79086 22 8 22H16C18.2091 22 20 20.2091 20 18V6C20 3.79086 18.2091 2 16 2Z" fill="currentColor" fillOpacity="0.1"/>
+    <path d="M16 2H8C5.79086 2 4 3.79086 4 6V18C4 20.2091 5.79086 22 8 22H16C18.2091 22 20 20.2091 20 18V6C20 3.79086 18.2091 2 16 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M8 10H16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M8 14H16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M8 6H12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    <circle cx="18" cy="18" r="4" fill="#6366F1"/>
+    <path d="M16.5 18L17.5 19L19.5 17" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+
 // --- AI Service ---
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
@@ -653,7 +667,7 @@ export default function App() {
       <nav className="no-print h-16 md:h-20 bg-white sticky top-0 z-[60] px-4 md:px-10 flex justify-between items-center border-b border-slate-100 flex-shrink-0">
         <div className="flex items-center gap-2 md:gap-3 cursor-pointer" onClick={() => setShowLanding(true)}>
           <div className="bg-[#1E293B] p-1.5 md:p-2.5 rounded-lg md:rounded-xl shadow-lg">
-            <Sparkles className="text-white h-4 w-4 md:h-5 md:w-5" />
+            <BrandLogo className="text-white h-4 w-4 md:h-5 md:w-5" />
           </div>
           <span className="font-black text-base md:text-xl tracking-tighter uppercase whitespace-nowrap">CVCraft<span className="text-indigo-600">AI</span></span>
         </div>
@@ -1021,7 +1035,7 @@ const LandingPage = ({ onStart, onProfile }: any) => {
       <nav className="max-w-7xl mx-auto px-6 md:px-10 py-6 md:py-10 flex justify-between items-center relative z-50">
         <div className="flex items-center gap-2 md:gap-3 group cursor-pointer">
           <div className="bg-[#1E293B] p-2 md:p-2.5 rounded-lg md:rounded-xl shadow-xl shadow-indigo-100 transition-all group-hover:bg-indigo-600">
-            <Sparkles className="text-white h-4 w-4 md:h-5 md:w-5" />
+            <BrandLogo className="text-white h-4 w-4 md:h-5 md:w-5" />
           </div>
           <span className="font-black text-xl md:text-2xl tracking-tighter uppercase">CV Craft</span>
         </div>
@@ -1144,7 +1158,7 @@ const LandingPage = ({ onStart, onProfile }: any) => {
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center gap-3 mb-6 md:mb-10">
               <div className="bg-white/10 p-2 md:p-3 rounded-lg md:rounded-xl backdrop-blur-md">
-                <Sparkles className="text-white h-5 w-5 md:h-6 md:w-6" />
+                <BrandLogo className="text-white h-5 w-5 md:h-6 md:w-6" />
               </div>
               <span className="font-black text-xl md:text-2xl tracking-tighter uppercase">CV Craft</span>
             </div>
