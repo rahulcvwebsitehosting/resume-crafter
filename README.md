@@ -1,73 +1,63 @@
 # CVCraft AI
-
-Institutional-grade resume construction and content optimization platform.
+Professional Resume Engineering Platform
 
 ## Description
-
-CVCraft AI is a professional web application designed to help job seekers and students create high-impact resumes that adhere to established university career service standards. The application solves common issues such as poor formatting, non-standard layouts, and weak achievement descriptions by enforcing reverse-chronological structures and providing impact-driven content suggestions. It is built for students, engineers, and professionals who require a clean, ATS-friendly document that meets the rigorous standards of top-tier institutions.
+CVCraft AI is a specialized web application designed to facilitate the creation of high-impact, professional resumes. By implementing structural guidelines established by top-tier university career services, the platform ensures that users produce documents that are both visually professional and optimized for modern recruitment systems. The application solves common formatting inconsistencies and provides tools for achievement quantification, making it ideal for students and professionals seeking to improve their document clarity.
 
 ## Features
-
-- Standardized Templates: Multiple layouts built according to Harvard, Stanford, and MIT career service guidelines.
-- Content Optimization: Integrated tools to refine work experience bullet points for maximum impact and clarity.
-- Live Interactive Canvas: Real-time visual rendering of the resume during the data entry process.
-- Responsive Design: Fully optimized editor for both desktop and mobile devices.
-- High-Fidelity PDF Export: One-click document generation maintaining pixel-perfect 8.5" x 11" dimensions.
-- Step-by-Step Guidance: A structured flow that prioritizes strategic sections based on candidate experience levels.
+- Standardized Layouts: Templates designed based on Harvard, Stanford, and MIT career education guidelines.
+- Intelligent Content Optimization: Integrated tools to assist in rewriting work experience descriptions using industry-standard formulas.
+- Real-Time Live Preview: Instant visual feedback of the final document during the data entry process.
+- High-Fidelity PDF Generation: Precise document rendering to ensure standard 8.5" x 11" output.
+- Responsive Editor: Fully optimized user interface for both desktop and mobile platforms.
 
 ## Tech Stack
-
-- Framework: React 19
-- Language: TypeScript
+- Frontend: React 19, TypeScript
 - Styling: Tailwind CSS
 - Animations: Framer Motion
 - Icons: Lucide React
-- Document Engine: html2pdf.js
-- Deployment: GitHub Pages
+- Logic: Content Processing API integration
+- Document Processing: html2pdf.js
 
 Repository Link: https://github.com/rahulcvwebsitehosting
 
-## Installation and Setup
-
+## Installation & Setup
 1. Clone the repository:
    ```bash
    git clone https://github.com/rahulcvwebsitehosting/cvcraft-ai.git
    ```
-
 2. Navigate to the project directory:
    ```bash
    cd cvcraft-ai
    ```
-
-3. Local Development:
-   This project utilizes ESM modules and CDN-based dependencies. It can be served using any local development server. If using NPM:
+3. Install dependencies:
    ```bash
-   npm install -g serve
-   serve .
+   npm install
+   ```
+4. Environment Variables:
+   Configure the necessary environment variable for content optimization features:
+   `API_KEY=[your_api_key_here]`
+5. Run the application:
+   ```bash
+   npm start
    ```
 
-4. Environment Configuration:
-   Ensure the necessary environment variables are configured in the execution environment if utilizing the dynamic content optimization features.
-
 ## Usage
-
-1. Template Selection: Choose from a variety of professional layouts optimized for different industries (Technical, Executive, Classic).
-2. Data Entry: Follow the structured sidebar to input identity, education, experience, and skills.
-3. Content Refinement: Use the optimization tool within the Experience section to improve achievement bullet points.
-4. Preview: Use the Preview toggle to review the full document layout.
-5. Export: Download the final document as a standardized PDF for job applications.
+- Navigate through the structured sections: Identity, Education, Experience, Technical, and Projects.
+- Input professional details into the responsive forms.
+- Utilize the optimization tool in the Experience section to enhance bullet points using standard action-verb formulas.
+- Toggle the Preview mode to inspect the layout across different templates.
+- Export the final document as a standardized PDF for job applications.
 
 ## Future Improvements
-
-- ATS scoring engine based on specific job descriptions and keyword density.
-- Automated cover letter generator that syncs with current resume data.
-- LinkedIn profile parser to allow for rapid data importing.
-- Multi-page support for candidates with over ten years of professional experience.
+- Automated ATS score assessment against specific job descriptions.
+- Support for multi-page professional CVs for senior-level candidates.
+- Integrated cover letter generator synced with current resume data.
+- LinkedIn profile import functionality for rapid data synchronization.
 
 ## Author
-
 Rahul S
-Civil Engineering student and developer focused on building functional web applications for academic and professional advancement.
+Engineering student and developer specializing in technical communication and functional web application development.
 
 GitHub: https://github.com/rahulcvwebsitehosting
 LinkedIn: https://www.linkedin.com/in/rahulshyamcivil/
