@@ -313,6 +313,7 @@ const StandardProfessionalTemplate = ({ data }: { data: ResumeData }) => (
                   <span className="italic">{edu.degree}</span>
                   <span>{edu.endDate}</span>
                 </div>
+                {edu.activities && <p className="text-[9pt] text-slate-600 mt-0.5">{edu.activities}</p>}
               </div>
             ))}
           </div>
@@ -587,8 +588,14 @@ export default function App() {
 
   // Handlers
   const handlePersonalInfo = (key: string, val: string) => setData(prev => ({ ...prev, personalInfo: { ...prev.personalInfo, [key]: val } }));
+  
   const updateExperience = (id: string, updates: Partial<Experience>) => setData(prev => ({ ...prev, experience: prev.experience.map(e => e.id === id ? { ...e, ...updates } : e) }));
+  
   const updateEducation = (id: string, updates: Partial<Education>) => setData(prev => ({ ...prev, education: prev.education.map(e => e.id === id ? { ...e, ...updates } : e) }));
+
+  const updateSkills = (id: string, updates: Partial<Skill>) => setData(prev => ({ ...prev, skills: prev.skills.map(s => s.id === id ? { ...s, ...updates } : s) }));
+
+  const updateProjects = (id: string, updates: Partial<Project>) => setData(prev => ({ ...prev, projects: prev.projects.map(p => p.id === id ? { ...p, ...updates } : p) }));
 
   const handleAiRewrite = async (text: string, id: string, type: 'exp' | 'proj', index: number) => {
     if (!text || text.length < 5) return;
@@ -613,7 +620,7 @@ export default function App() {
       if (proj) {
         const newBullets = [...proj.bullets];
         newBullets[index] = suggestion;
-        setData(prev => ({ ...prev, projects: prev.projects.map(p => p.id === parentId ? { ...p, bullets: newBullets } : p) }));
+        updateProjects(parentId, { bullets: newBullets });
       }
     }
     setAiSuggestionsModal(null);
@@ -718,12 +725,40 @@ export default function App() {
                   </div>
                 )}
 
+                {activeStep === 1 && (
+                  <div className="space-y-6 md:space-y-8">
+                    <div className="flex justify-between items-center">
+                      <h2 className="text-2xl md:text-3xl font-black uppercase">Education <span className="text-indigo-600">History.</span></h2>
+                      <button onClick={() => setData(prev => ({ ...prev, education: [...prev.education, { id: Math.random().toString(), school: '', degree: '', major: '', location: '', startDate: '', endDate: '', gpa: '', activities: '' }] }))} className="bg-indigo-600 text-white px-3 py-2 md:px-5 md:py-2.5 rounded-lg md:rounded-xl font-bold text-[9px] md:text-[10px] uppercase tracking-widest flex items-center gap-1.5 shadow-lg">
+                        <Plus size={14} /> Add Education
+                      </button>
+                    </div>
+                    {data.education.map(edu => (
+                      <div key={edu.id} className="p-5 md:p-8 bg-slate-50 border border-slate-100 rounded-2xl md:rounded-3xl relative group">
+                        <button onClick={() => setData(prev => ({ ...prev, education: prev.education.filter(e => e.id !== edu.id) }))} className="absolute top-4 right-4 p-2 text-slate-300 hover:text-red-500 transition-all"><Trash2 size={16}/></button>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 md:gap-x-6">
+                          <Input label="Institution" value={edu.school} onChange={(v:any) => updateEducation(edu.id, { school: v })} placeholder="University Name" />
+                          <Input label="Degree" value={edu.degree} onChange={(v:any) => updateEducation(edu.id, { degree: v })} placeholder="B.S. Computer Science" />
+                          <Input label="Location" value={edu.location} onChange={(v:any) => updateEducation(edu.id, { location: v })} placeholder="City, State" />
+                          <Input label="Timeline" value={edu.endDate} onChange={(v:any) => updateEducation(edu.id, { endDate: v })} placeholder="Expected May 2026" />
+                        </div>
+                        <TextArea label="Relevant Coursework / Activities" value={edu.activities} onChange={(v:any) => updateEducation(edu.id, { activities: v })} placeholder="Dean's List, Relevant coursework: Data Structures, Algorithms..." />
+                      </div>
+                    ))}
+                    {data.education.length === 0 && (
+                       <div className="py-12 md:py-20 text-center bg-slate-50 rounded-2xl md:rounded-3xl border border-dashed border-slate-200 text-slate-400 font-medium text-xs md:text-sm px-4">
+                          Start by adding your latest educational background.
+                       </div>
+                    )}
+                  </div>
+                )}
+
                 {activeStep === 2 && (
                   <div className="space-y-6 md:space-y-8">
                     <div className="flex justify-between items-center">
                       <h2 className="text-2xl md:text-3xl font-black uppercase">Work <span className="text-indigo-600">Experience.</span></h2>
                       <button onClick={() => setData(prev => ({ ...prev, experience: [...prev.experience, { id: Math.random().toString(), company: '', title: '', location: '', startDate: '', endDate: '', isCurrent: false, bullets: [''] }] }))} className="bg-indigo-600 text-white px-3 py-2 md:px-5 md:py-2.5 rounded-lg md:rounded-xl font-bold text-[9px] md:text-[10px] uppercase tracking-widest flex items-center gap-1.5 shadow-lg">
-                        <Plus size={14} /> Add
+                        <Plus size={14} /> Add Experience
                       </button>
                     </div>
                     {data.experience.map(exp => (
@@ -753,12 +788,123 @@ export default function App() {
                         </div>
                       </div>
                     ))}
+                    {data.experience.length === 0 && (
+                       <div className="py-12 md:py-20 text-center bg-slate-50 rounded-2xl md:rounded-3xl border border-dashed border-slate-200 text-slate-400 font-medium text-xs md:text-sm px-4">
+                          List your professional roles and key achievements.
+                       </div>
+                    )}
                   </div>
                 )}
-                {activeStep !== 0 && activeStep !== 2 && (
-                   <div className="py-12 md:py-20 text-center bg-slate-50 rounded-2xl md:rounded-3xl border border-dashed border-slate-200 text-slate-400 font-medium text-xs md:text-sm px-4">
-                      This module is ready for population. <br className="hidden md:block"/> Add entries to see University logic in action.
-                   </div>
+
+                {activeStep === 3 && (
+                  <div className="space-y-6 md:space-y-8">
+                    <div className="flex justify-between items-center">
+                      <h2 className="text-2xl md:text-3xl font-black uppercase">Technical <span className="text-indigo-600">Skills.</span></h2>
+                      <button onClick={() => setData(prev => ({ ...prev, skills: [...prev.skills, { id: Math.random().toString(), category: '', items: '' }] }))} className="bg-indigo-600 text-white px-3 py-2 md:px-5 md:py-2.5 rounded-lg md:rounded-xl font-bold text-[9px] md:text-[10px] uppercase tracking-widest flex items-center gap-1.5 shadow-lg">
+                        <Plus size={14} /> Add Skill Category
+                      </button>
+                    </div>
+                    {data.skills.map(skill => (
+                      <div key={skill.id} className="p-5 md:p-8 bg-slate-50 border border-slate-100 rounded-2xl md:rounded-3xl relative group">
+                        <button onClick={() => setData(prev => ({ ...prev, skills: prev.skills.filter(s => s.id !== skill.id) }))} className="absolute top-4 right-4 p-2 text-slate-300 hover:text-red-500 transition-all"><Trash2 size={16}/></button>
+                        <Input label="Category" value={skill.category} onChange={(v:any) => updateSkills(skill.id, { category: v })} placeholder="e.g. Programming Languages, Software, Design Tools" />
+                        <TextArea label="Skills List" value={skill.items} onChange={(v:any) => updateSkills(skill.id, { items: v })} placeholder="Python, JavaScript, React, Figma, SQL..." rows={2} />
+                      </div>
+                    ))}
+                    {data.skills.length === 0 && (
+                       <div className="py-12 md:py-20 text-center bg-slate-50 rounded-2xl md:rounded-3xl border border-dashed border-slate-200 text-slate-400 font-medium text-xs md:text-sm px-4">
+                          Group your skills for maximum readability.
+                       </div>
+                    )}
+                  </div>
+                )}
+
+                {activeStep === 4 && (
+                  <div className="space-y-6 md:space-y-8">
+                    <div className="flex justify-between items-center">
+                      <h2 className="text-2xl md:text-3xl font-black uppercase">Personal <span className="text-indigo-600">Projects.</span></h2>
+                      <button onClick={() => setData(prev => ({ ...prev, projects: [...prev.projects, { id: Math.random().toString(), name: '', technologies: '', link: '', bullets: [''] }] }))} className="bg-indigo-600 text-white px-3 py-2 md:px-5 md:py-2.5 rounded-lg md:rounded-xl font-bold text-[9px] md:text-[10px] uppercase tracking-widest flex items-center gap-1.5 shadow-lg">
+                        <Plus size={14} /> Add Project
+                      </button>
+                    </div>
+                    {data.projects.map(proj => (
+                      <div key={proj.id} className="p-5 md:p-8 bg-slate-50 border border-slate-100 rounded-2xl md:rounded-3xl relative group">
+                        <button onClick={() => setData(prev => ({ ...prev, projects: prev.projects.filter(p => p.id !== proj.id) }))} className="absolute top-4 right-4 p-2 text-slate-300 hover:text-red-500 transition-all"><Trash2 size={16}/></button>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 md:gap-x-6">
+                          <Input label="Project Name" value={proj.name} onChange={(v:any) => updateProjects(proj.id, { name: v })} placeholder="Project Title" />
+                          <Input label="Technologies" value={proj.technologies} onChange={(v:any) => updateProjects(proj.id, { technologies: v })} placeholder="React, Node.js, AWS" />
+                          <Input label="Link / URL" value={proj.link} onChange={(v:any) => updateProjects(proj.id, { link: v })} placeholder="github.com/user/project" />
+                        </div>
+                        <div className="mt-4 space-y-3">
+                           <label className="text-[9px] md:text-[10px] font-black uppercase text-slate-400 tracking-widest block">Project Details</label>
+                           {proj.bullets.map((b, i) => (
+                             <div key={i} className="flex gap-2 md:gap-3">
+                               <textarea value={b} onChange={(e) => {
+                                 const nb = [...proj.bullets]; nb[i] = e.target.value; updateProjects(proj.id, { bullets: nb });
+                               }} className="flex-1 p-2 md:p-3 bg-white border border-slate-200 rounded-lg md:rounded-xl text-[11px] md:text-xs" rows={2} placeholder="Explain what you built and the impact..." />
+                               <button onClick={() => handleAiRewrite(b, proj.id, 'proj', i)} className="p-2 md:p-3 bg-white border border-slate-200 text-indigo-600 rounded-lg md:rounded-xl hover:border-indigo-300 transition-all shadow-sm">
+                                  {aiLoadingId === `${proj.id}-${i}` ? <div className="w-4 h-4 md:w-5 md:h-5 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin" /> : <Sparkles size={16} className="md:w-[18px] md:h-[18px]"/>}
+                               </button>
+                             </div>
+                           ))}
+                           <button onClick={() => updateProjects(proj.id, { bullets: [...proj.bullets, ''] })} className="text-[9px] font-bold text-indigo-600 hover:text-indigo-800 uppercase tracking-widest flex items-center gap-1 mt-1">
+                              <Plus size={10}/> Add Detail
+                           </button>
+                        </div>
+                      </div>
+                    ))}
+                    {data.projects.length === 0 && (
+                       <div className="py-12 md:py-20 text-center bg-slate-50 rounded-2xl md:rounded-3xl border border-dashed border-slate-200 text-slate-400 font-medium text-xs md:text-sm px-4">
+                          Highlight unique projects or open-source contributions.
+                       </div>
+                    )}
+                  </div>
+                )}
+
+                {activeStep === 5 && (
+                  <div className="space-y-12">
+                    <h2 className="text-2xl md:text-3xl font-black uppercase">Final <span className="text-indigo-600">Audit.</span></h2>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                      <div className="space-y-6">
+                        <div className="bg-white p-6 md:p-8 rounded-2xl md:rounded-3xl border border-slate-100 shadow-xl">
+                          <h3 className="font-black text-xs uppercase tracking-widest text-slate-400 mb-6 flex items-center gap-2"><Settings size={14}/> Template Control</h3>
+                          <div className="grid grid-cols-2 gap-3">
+                            {TEMPLATES.map(t => (
+                              <button key={t.id} onClick={() => setData(prev => ({ ...prev, templateId: t.id as any }))} className={`flex flex-col gap-3 p-4 rounded-2xl border transition-all text-left ${data.templateId === t.id ? 'border-indigo-600 bg-indigo-50' : 'border-slate-100 hover:bg-slate-50'}`}>
+                                <t.icon size={18} className={data.templateId === t.id ? 'text-indigo-600' : 'text-slate-400'} />
+                                <div className={`text-[10px] font-bold uppercase tracking-tight ${data.templateId === t.id ? 'text-indigo-700' : 'text-slate-600'}`}>{t.name}</div>
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div className="bg-white p-6 md:p-8 rounded-2xl md:rounded-3xl border border-slate-100 shadow-xl">
+                          <h3 className="font-black text-xs uppercase tracking-widest text-slate-400 mb-6 flex items-center gap-2"><Check size={14}/> Health Check</h3>
+                          <ul className="space-y-4">
+                            <li className="flex items-center gap-3 text-sm font-bold text-slate-600">
+                              <div className="bg-green-100 text-green-600 p-1 rounded-full"><Check size={14}/></div> One Page Optimization
+                            </li>
+                            <li className="flex items-center gap-3 text-sm font-bold text-slate-600">
+                               <div className="bg-green-100 text-green-600 p-1 rounded-full"><Check size={14}/></div> Action Verb Verification
+                            </li>
+                            <li className="flex items-center gap-3 text-sm font-bold text-slate-600">
+                               <div className="bg-indigo-100 text-indigo-600 p-1 rounded-full"><Info size={14}/></div> Quantified Result Check
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+
+                      <div className="bg-[#1E293B] p-8 md:p-10 rounded-2xl md:rounded-[2.5rem] text-white flex flex-col justify-center items-center text-center">
+                         <div className="bg-white/10 p-4 rounded-3xl mb-6">
+                            <Download size={40} className="text-white"/>
+                         </div>
+                         <h3 className="text-xl md:text-2xl font-black uppercase mb-4 tracking-tight">Ready to Export?</h3>
+                         <p className="text-white/60 text-sm mb-8 leading-relaxed font-medium">Your resume is optimized based on Ivy League career guidelines and is ready for recruitment systems.</p>
+                         <button onClick={triggerDownload} className="w-full bg-white text-[#1E293B] py-4 rounded-2xl font-black uppercase tracking-widest hover:scale-105 transition-all shadow-2xl">Download PDF</button>
+                      </div>
+                    </div>
+                  </div>
                 )}
               </motion.div>
             </AnimatePresence>
@@ -768,7 +914,7 @@ export default function App() {
                   <ChevronLeft size={14}/> Prev
                </button>
                <button disabled={activeStep === 5} onClick={() => setActiveStep(p => p + 1)} className="px-6 py-3 md:px-10 md:py-4 bg-slate-900 text-white rounded-lg md:rounded-xl font-bold uppercase tracking-widest text-[9px] md:text-[10px] shadow-lg hover:scale-105 active:scale-95 transition-all flex items-center gap-1.5">
-                  Next Stage <ChevronRight size={14}/>
+                  {activeStep === 5 ? 'Download Now' : 'Next Stage'} <ChevronRight size={14}/>
                </button>
             </div>
           </div>
