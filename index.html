@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CVCraft AI - Build Your Professional Resume</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&family=Source+Code+Pro:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F9F7F2;
+            color: #1E293B;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        .resume-preview-container {
+            width: 8.5in;
+            height: 11in;
+            background: white;
+            box-shadow: 0 10px 50px -12px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            display: block;
+            flex-shrink: 0;
+        }
+
+        /* Perspective for Laptop Mockup */
+        .laptop-container {
+            perspective: 2000px;
+        }
+
+        /* Hide scrollbars but allow scrolling */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Scaling wrapper for sidebar */
+        .preview-scale-wrapper {
+            width: 100%;
+            height: auto;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            overflow: visible;
+        }
+
+        /* Offscreen but present in DOM for PDF capture */
+        .pdf-offscreen {
+            position: fixed;
+            left: -9999px;
+            top: 0;
+            width: 8.5in;
+            background: white;
+            z-index: -100;
+        }
+
+        @media print {
+            body > * {
+                display: none !important;
+            }
+            #printable-area {
+                display: block !important;
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 8.5in !important;
+                height: 11in !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                background: white !important;
+            }
+            html, body {
+                height: auto !important;
+                background: white !important;
+                overflow: visible !important;
+            }
+            @page {
+                size: letter;
+                margin: 0;
+            }
+        }
+
+        .break-inside-avoid {
+            break-inside: avoid;
+        }
+
+        /* Handle very small screens for the floating preview */
+        @media (max-width: 480px) {
+            .resume-preview-container {
+                /* Container itself stays same size internally, we scale the container down in JSX */
+            }
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@19.0.0",
+    "react-dom": "https://esm.sh/react-dom@19.0.0",
+    "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
+    "lucide-react": "https://esm.sh/lucide-react@0.460.0?deps=react@19.0.0",
+    "framer-motion": "https://esm.sh/framer-motion@11.11.11?deps=react@19.0.0",
+    "html2pdf.js": "https://esm.sh/html2pdf.js@0.10.1",
+    "@google/genai": "https://esm.sh/@google/genai@1.36.0",
+    "react-dom/": "https://esm.sh/react-dom@19.0.0/",
+    "react/": "https://esm.sh/react@19.0.0/"
+  }
+}
+</script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="module" src="index.tsx"></script>
+</body>
+</html>
